@@ -178,4 +178,89 @@ grid on		%打开网格
 axis square	%让坐标轴相等
 ~~~
 
+## 文件导入
+~~~
+%mat格式,用文件名.mat 要保存的变量
+save data.mat x y1 y2
+
+%txt格式
+M=importdata('myfile.txt');	%导入的是结构体格式
+S=M.data;
+
+%xls or xlsx格式
+xlswrite('data.xls',S);
+M=xlsread('data.xls');
+isequal(S,W);	%判断两者是否相等，相等返回1
+~~~
+
+# 三、进阶
+要会使用cell mode模式，即用两个%加一个空格的形式。这样子就能够便于程序的发布(publish).
+## 调试
+在要开始调试的语句处的左边点击，会出现红点。按下F5就会进入调试模式，具体是在命令行栏出现K；按下F10，进入下一行；按shift+F5退出调试。
+## 查看自带的工具箱函数 
+edit or help  加函数名
+varargin  变长度输入参数
+varargout 变长度输出参数
+nargin
+## 内存优化配置
+物理上：禁用java虚拟机；增加虚拟内存数量；打开系统3GB开关（32位系统）；
+软件上：及时清除不用的变量；预分配内存；选择恰当的数据类型；循环与向量化 ；按列优先循环；循环次数多的变量安排在内层
+* 预分配内存
+~~~
+n = 30000;
+tic;
+for k = 1:n
+    a(k) = 1;
+end
+time = toc;
+disp(['未预分配内存下动态赋值长为',num2str(n),'的数组时间是:',num2str(time),'秒！'])
+
+tic
+b = zeros(1,n);
+for k = 1:n
+    b(k) = 1;
+end
+time = toc;
+disp(['预分配内存下动态赋值长为',num2str(n),'的数组时间是:',num2str(time),'秒！'])
+~~~
+## 图像对象和句柄
+图像对象是用于界面制作和数据可视的基本绘图元素。
+图形对象的属性由属性名和属性值两部分组成。句柄是图形对象的标识代码，句柄含有图形对象的各种必要的属性信息；根屏幕的句柄为0，图形窗口的句柄为整数，其他对象的句柄为浮点数。
+~~~
+%修改线条的属性，线性可以选择'-'or'--'or':'or'-.'or'none'
+x = 0:0.01:2*pi;
+y = sin(x);
+h = plot(x,y);
+grid on
+get(h)
+set(h,'linestyle','-','linewidth',2,'color','k')
+%可以看出，是采用将图像赋值给某个变量，再对变量进行处理
+
+%修改网格间隔
+set(gca,'xtick',0:0.5:7)
+set(gca,'ytick',-1:0.1:1)
+
+%设置图例的字体及大小
+x = 0:0.01:2*pi;
+y1 = sin(x);
+y2 = cos(x);
+plot(x,y1,'r')
+hold on
+plot(x,y2,'-.b')
+h = legend('sin(x)','cos(x)');
+set(h,'fontsize',16,'color','k','edgecolor','r','textcolor','w')
+%这里的color是指背景的颜色
+
+%拆分图例
+x = 0:0.01:2*pi;
+y1 = sin(x);
+y2 = cos(x);
+h1 = plot(x,y1,'r');
+hold on
+h2 = plot(x,y2,'-.b');
+ax1 = axes('position',get(gca,'position'),'visible','off');
+legend(ax1,h1,'sin(x)','location','northwest')
+ax2 = axes('position',get(gca,'position'),'visible','off');
+legend(ax2,h2,'cos(x)','location','northeast')
+~~~
 
