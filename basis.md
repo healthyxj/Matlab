@@ -408,7 +408,20 @@ axis equal
 ~~~
 然后做包络线
 ~~~
+%利用heart_like(r)函数构造拥有初始圆的心型线
+%输入时要以r作为参数
 
+function heart_like(r)
+circle([0,0],r)
+hold on
+for theta=0:15\pi:2*pi
+    circle([r*cos(theta),r*sin(theta)],sqrt(r*sin(theta)*r*sin(theta)+(r*cos(theta)+r).^2))
+    hold on
+end
+hold off
+%重复做需要用for循环，for循环的条件是一系列的数组（正常用步距）；for循环要用end来结束
+%步距设错了，左除与右除
+%需要hold on来保留之前的图像
 ~~~
 ## 3、小猫出山洞
 小猫掉进山洞 山洞有三个门。第一个门: 2h可以到地面；第二个门: 4h又回到原始出发点；第三个门: 6h还是回到原始出发点。小猫每次随机选择其中一个门走。那么可怜的小猫走出山洞的平均时间是多少？
