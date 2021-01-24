@@ -157,9 +157,36 @@ myy=mean(yy);
 %求出临界值
 y0 = (5*myj+5*myy)/(5+5);
 
+sample1=[2.4 14.3 7.9 33.2];
+sample2=[5.1 4.43 22.4 54.6];
+
 %将样品值带入到判别函数中
 y1=sample1*c;
 y2=sample2*c;
+
+if myy < myj
+    if y1>y0
+        disp("1样本属于甲地")
+    else 
+        disp("1样本属于乙地")
+    end
+    if y2>y0
+        disp("2样本属于甲地")
+    else 
+        disp("2样本属于乙地")
+    end
+else
+    if y1>y0
+        disp("1样本属于乙地")
+    else
+        disp("1样本属于甲地")
+    end
+    if y2>y0
+        disp("2样本属于乙地")
+    else 
+        disp("2样本属于甲地")
+    end
+end
 ~~~
 
 
